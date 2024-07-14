@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <style>
+        .extracted-text-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            max-width: 600px; /* Set a max width for the box */
+            word-wrap: break-word; /* Wrap long words */
+            overflow-wrap: break-word; /* Break long words if necessary */
+            background-color: #f9f9f9; /* Light background color */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to My Website</h1>
+        <nav>
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'signup' %}">Sign Up</a>
+        </nav>
+    </header>
+    
+    <h2>Upload Image</h2>
+    <form method="post" enctype="multipart/form-data" action="{% url 'home' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+
+   
+    {% if extracted_text %}
+    <div class="extracted-text-box">
+        <h1>Extracted Text</h1>
+        <p>{{ extracted_text }}</p>
+    </div>
+    {% endif %}
+    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+    {% if all_extracted_texts %}
+<h3>Previous Extracted Texts</h3>
+<ul>
+    {% for item in all_extracted_texts %}
+        <li>{{ item.text }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+    <footer>
+    
+    </footer>
+</body>
+</html>
